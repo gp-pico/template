@@ -48,6 +48,9 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
             ./build
+      - name: Check files
+        run: |
+          ls -la ./build/${{ matrix.picoBoard }}
       - name: Upload executables
         uses: actions/github-script@v7
         env:
@@ -67,7 +70,7 @@ jobs:
             console.info("Uploading for release: " + release.data.id);
             for (const extension of [ '.elf', '.bin', '.uf2' ]) {
               const uploadFilename = process.env.PICO_BOARD + "_" + process.env.PICO_SDK_VERSION + extension;
-              const sourceFilePath = "build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
+              const sourceFilePath = "./build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
               console.info("Uploading " + sourceFilePath + " as " + uploadFilename);
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
