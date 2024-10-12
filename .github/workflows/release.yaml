@@ -35,5 +35,7 @@ jobs:
     name: Publish
     needs: [ build ]
     uses: ./.github/workflows/publish.yaml
+    with:
+      tag: $ {{ github.event.release.tag_name }}
 
 # End
