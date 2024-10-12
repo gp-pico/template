@@ -44,7 +44,7 @@ jobs:
         with:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
-            ./build/${{ matrix.picoBoard }}
+            ./build
       - name: Copy pico_sdk_import.cmake
         run: cp /opt/rpi-pico/v${{ matrix.picoSDKVersion }}/pico-sdk/external/pico_sdk_import.cmake .
       - name: Create build folder
@@ -67,6 +67,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.picoBoard }}-${{ matrix.picoSDKVersion }}
-          path: build/**
+          path: build/
 
 # End

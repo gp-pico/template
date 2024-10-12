@@ -47,7 +47,7 @@ jobs:
         with:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
-            ./build/${{ matrix.picoBoard }}
+            ./build
       - name: Upload executables
         uses: actions/github-script@v7
         env:
