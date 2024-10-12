@@ -7,8 +7,6 @@
 
 ## About
 
-___
-
 This is a template project that aim at been a kickstart for Pico projects.
 
 It provides:
@@ -34,8 +32,6 @@ It provides:
 4. RP2350 (risc, dual core)
 
 ## Getting started
-
-___
 
 ### Clone and adjust the kickstarter repo
 
@@ -115,13 +111,9 @@ make -j 8
 
 ## SDK installation
 
-___
-
 Detailed instrutions can be found here [docs/sdk/README.md](docs/sdk/README.md).
 
 ## IDE setup
-
-___
 
 Here are steps to set up various IDE in order to develop for this project.
 
@@ -142,8 +134,6 @@ See [doc/neovim/README.md](docs/neovim/README.md).
 See [doc/emacs/README.md](docs/emacs/README.md).
 
 ## CI/CD support
-
-___
 
 ### Dev container
 
@@ -167,12 +157,8 @@ These actions will use the following _sub-actions_:
 
 ## Contribution
 
-___
-
 Contributions are welcome. Please refer to the [code of conduct](./CODE_OF_CONDUCT.md).
 
 ## License
-
-___
 
 For more details, please read the [license](./LICENSE.md) terms.
