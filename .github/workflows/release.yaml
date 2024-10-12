@@ -35,8 +35,5 @@ jobs:
     name: Publish
     needs: [ build ]
     uses: ./.github/workflows/publish.yaml
-#    with:
-#      fbProjectId: prod
-#      ghEnvironment: Production
-#    secrets:
-#      GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64_DEPLOY }}
+
+# End
