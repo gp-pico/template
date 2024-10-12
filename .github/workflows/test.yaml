@@ -45,8 +45,17 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
             ./build
-      - name: Test
-        run: |
-          ls -la ./
+      - name: Check executables
+        uses: actions/github-script@v7
+        env:
+          PICO_BOARD: ${{ matrix.picoBoard }}
+        with:
+          script: |
+            const fs = require('fs');
+            for (const extension of [ '.elf', '.bin', '.uf2' ]) {
+              const sourceFilePath = "./build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
+              const buffer = fs.readFileSync(sourceFilePath);
+              console.info(sourceFilePath + " is " + buffer.length + " byte(s)");
+            }
 
 # End
