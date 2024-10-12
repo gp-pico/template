@@ -35,8 +35,6 @@ jobs:
   build:
     name: Publish
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/gp-devenv/gp-pico-devenv:24.04-${{ matrix.picoSDKVersion }}-1
     strategy:
       matrix:
         picoBoard: [ 'pico', 'pico_w', 'pico2' ]
@@ -60,17 +58,17 @@ jobs:
           script: |
             const fs = require('fs');
             const tag = process.env.TAG;
-            Console.info("Uploading for tag: " + tag);
+            console.info("Uploading for tag: " + tag);
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner, 
               repo: context.repo.repo, 
               tag: tag
             });
-            Console.info("Uploading for release: " + release.data.id);
+            console.info("Uploading for release: " + release.data.id);
             for (const extension in [ '.elf', '.bin', '.uf2' ]) {
               const uploadFilename = process.env.PICO_BOARD + "_" + process.env.PICO_SDK_VERSION + extension;
               const sourceFilepath = "build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
-              Console.info("Uploading " + sourceFilePath + " as " + uploadFilename);
+              console.info("Uploading " + sourceFilePath + " as " + uploadFilename);
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
                 repo: context.repo.repo, 
