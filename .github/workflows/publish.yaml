@@ -57,7 +57,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const tag = process.env.GH_REF.replace("/refs/tags/", "");
+            const tag = process.env.GH_REF.replace("refs/tags/", "");
             console.info("Uploading for tag: " + tag);
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner, 
