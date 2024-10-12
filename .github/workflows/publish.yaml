@@ -52,14 +52,14 @@ jobs:
             const fs = require('fs');
             const tag = context.ref.replace("refs/tags/", "");
             console.info("Uploading for tag: " + tag);
-            const release = await github.repo.getReleaseByTag({
+            const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner, 
               repo: context.repo.repo, 
               tag: tag
             });
             console.info("Uploading for release: " + release.data.name);
             for (const extension in [ '.elf', '.bin', '.uf2' ]) {
-              await github.repo.uploadReleaseAsset({
+              await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
                 repo: context.repo.repo, 
                 release_id: release.data.id,
