@@ -45,5 +45,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
             ./build
+      - name: Test
+        run: |
+          ls -la ./
 
 # End
