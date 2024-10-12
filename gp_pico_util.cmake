@@ -25,20 +25,39 @@
 execute_process(
         COMMAND git log -1 --format=%h
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        OUTPUT_VARIABLE GP_GIT_COMMIT_HASH
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-if (NOT GIT_COMMIT_HASH STREQUAL "")
-    add_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
+if (NOT ${GP_GIT_COMMIT_HASH} STREQUAL "")
+    add_definitions("-DGP_GIT_COMMIT_HASH=\"${GP_GIT_COMMIT_HASH}\"")
+    message("Found commit hash: ${GP_GIT_COMMIT_HASH}")
 endif ()
 
 # Get current tag
 execute_process(
         COMMAND git tag --points-at HEAD
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_COMMIT_TAG
+        OUTPUT_VARIABLE GP_GIT_COMMIT_TAG
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-if (NOT GIT_COMMIT_TAG STREQUAL "")
-    add_definitions("-DGIT_COMMIT_TAG=\"${GIT_COMMIT_TAG}\"")
+if (NOT ${GP_GIT_COMMIT_TAG} STREQUAL "")
+    add_definitions("-DGP_GIT_COMMIT_TAG=\"${GP_GIT_COMMIT_TAG}\"")
+    message("Found commit tag: ${GP_GIT_COMMIT_TAG}")
+endif ()
+
+# Process version
+if (EXISTS ${CMAKE_SOURCE_DIR}/gp_pico_version.json)
+    file(READ ${CMAKE_SOURCE_DIR}/gp_pico_version.json GH_JSON_VERSION)
+    string(JSON GP_MAJOR_VERSION GET ${GH_JSON_VERSION} "major")
+    string(JSON GP_MINOR_VERSION GET ${GH_JSON_VERSION} "minor")
+    string(JSON GP_PATCH_VERSION GET ${GH_JSON_VERSION} "patch")
+    string(JSON GP_BUILD_NUMBER GET ${GH_JSON_VERSION} "buildNumber")
+    if ((NOT ${GP_MAJOR_VERSION} STREQUAL "") AND (NOT ${GP_MINOR_VERSION} STREQUAL "") AND (NOT ${GP_PATCH_VERSION}
+            STREQUAL "") AND (NOT ${GP_BUILD_NUMBER} STREQUAL ""))
+        add_definitions("-DGP_MAJOR_VERSION=\"${GP_MAJOR_VERSION}\"")
+        add_definitions("-DGP_MINOR_VERSION=\"${GP_MINOR_VERSION}\"")
+        add_definitions("-DGP_PATCH_VERSION=\"${GP_PATCH_VERSION}\"")
+        add_definitions("-DGP_BUILD_NUMBER=\"${GP_BUILD_NUMBER}\"")
+        message("Found version: ${GP_MAJOR_VERSION}.${GP_MINOR_VERSION}.${GP_PATCH_VERSION}+${GP_BUILD_NUMBER}")
+    endif ()
 endif ()

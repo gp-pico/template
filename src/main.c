@@ -30,8 +30,8 @@
 
 int main()
 {
-    int ret = 0;   // Return code
-    int count = 0; // Running count from 0 to 8 restarting at 0
+    int ret = 0;    // Return code
+    int count = 0;  // Running count from 0 to 8 restarting at 0
 
     // Initialize output
     ret = stdio_init_all();
@@ -46,12 +46,15 @@ int main()
     printf("--------------------------------------------------------------------------------\n");
     printf("Template - Kickstart your Pico project\n");
     printf("Copyright © 2024, Greg PFISTER. MIT License.\n");
-#ifdef GIT_COMMIT_TAG
-    printf("Version: v%s\n", GIT_COMMIT_TAG);
+#ifdef GP_MAJOR_VERSION&& GP_MINOR_VERSION&& GP_PATCH_VERSION&& GP_BUILD_NUMBER
+    printf("Version: v%s.%s.%s+%s\n", GP_MAJOR_VERSION, GP_MINOR_VERSION, GP_PATCH_VERSION, GP_BUILD_NUMBER);
 #endif
     printf("Build date: %s at %s\n", __DATE__, __TIME__);
-#ifdef GIT_COMMIT_HASH
-    printf("Commit: %s\n", GIT_COMMIT_HASH);
+#ifdef GP_GIT_COMMIT_TAG
+    printf("Commit tag: %s\n", GP_GIT_COMMIT_TAG);
+#endif
+#ifdef GP_GIT_COMMIT_HASH
+    printf("Commit hash: %s\n", GP_GIT_COMMIT_HASH);
 #endif
     printf("--------------------------------------------------------------------------------\n");
     printf("\n");
@@ -59,7 +62,6 @@ int main()
     // Main loop
     // ReSharper disable once CppDFAEndlessLoop
     while (1) {
-
         // Some debug
         printf("%10i ms: Blink !\n", to_ms_since_boot(get_absolute_time()));
 

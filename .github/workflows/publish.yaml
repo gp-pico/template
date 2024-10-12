@@ -67,14 +67,14 @@ jobs:
             console.info("Uploading for release: " + release.data.id);
             for (const extension in [ '.elf', '.bin', '.uf2' ]) {
               const uploadFilename = process.env.PICO_BOARD + "_" + process.env.PICO_SDK_VERSION + extension;
-              const sourceFilepath = "build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
+              const sourceFilePath = "build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
               console.info("Uploading " + sourceFilePath + " as " + uploadFilename);
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
                 repo: context.repo.repo, 
                 release_id: release.data.id,
                 name: uploadFilename,
-                data: fs.readFileSync(sourceFilename)
+                data: fs.readFileSync(sourceFilePath)
               });
             }
 
