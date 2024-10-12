@@ -36,6 +36,6 @@ jobs:
     needs: [ build ]
     uses: ./.github/workflows/publish.yaml
     with:
-      tag: $ {{ github.event.release.tag_name }}
+      ghRef: ${{ github.ref }}
 
 # End
