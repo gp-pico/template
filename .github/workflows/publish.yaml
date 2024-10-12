@@ -25,6 +25,11 @@ name: Publish
 
 on:
   workflow_call:
+    inputs:
+      tag:
+        description: The tag associated to the release
+        type: string
+        required: true
 
 jobs:
   build:
@@ -50,7 +55,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const tag = context.ref.replace("refs/tags/", "");
+            const tag = "${{ inputs.tag }}";
             console.info("Uploading for tag: " + tag);
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner, 
@@ -59,12 +64,14 @@ jobs:
             });
             console.info("Uploading for release: " + release.data.name);
             for (const extension in [ '.elf', '.bin', '.uf2' ]) {
+              const uploadFilename = "${{ matrix.picoBoard }}_${{ matrix.picoSDKVersion }}" + extension;
+              const sourceFilepath = "build/${{ matrix.picoBoard }}/gp_pico_template" + extension;
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
                 repo: context.repo.repo, 
                 release_id: release.data.id,
-                name: "${{ matrix.picoBoard }}_${{ matrix.picoSDKVersion }}" + extension,
-                data: fs.readFileSync("build/${{ matrix.picoBoard }}/gp_pico_template" + extension)
+                name: uploadFilename,
+                data: fs.readFileSync(sourceFilename)
               });
             }
 
