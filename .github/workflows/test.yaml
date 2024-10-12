@@ -34,8 +34,8 @@ jobs:
       image: ghcr.io/gp-devenv/gp-pico-devenv:24.04-${{ matrix.picoSDKVersion }}-1
     strategy:
       matrix:
-        picoSDKVersion: [ '2.0.0' ]
         picoBoard: [ 'pico', 'pico_w', 'pico2' ]
+        picoSDKVersion: [ '2.0.0' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,3 +45,5 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
           path: |
             ./build/${{ matrix.picoBoard }}
+
+# End

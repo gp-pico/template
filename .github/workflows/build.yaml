@@ -34,8 +34,8 @@ jobs:
       image: ghcr.io/gp-devenv/gp-pico-devenv:24.04-${{ matrix.picoSDKVersion }}-1
     strategy:
       matrix:
-        picoSDKVersion: [ '2.0.0' ]
         picoBoard: [ 'pico', 'pico_w', 'pico2' ]
+        picoSDKVersion: [ '2.0.0' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,3 +63,10 @@ jobs:
           PICO_SDK_PATH: /opt/rpi-pico/v${{ matrix.picoSDKVersion }}/pico-sdk
           PICO_EXTRAS_PATH: /opt/rpi-pico/v${{ matrix.picoSDKVersion }}/pico-extras
           PICO_PLAYGROUND_PATH: /opt/rpi-pico/v${{ matrix.picoSDKVersion }}/pico-playground
+      - name: Upload artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artefact
+          path: build/**
+
+# End

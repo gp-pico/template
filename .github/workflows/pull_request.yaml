@@ -38,5 +38,5 @@ jobs:
     name: Test
     needs: [ build ]
     uses: ./.github/workflows/test.yaml
-#    secrets:
-#      GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+
+# End
