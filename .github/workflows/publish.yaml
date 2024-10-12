@@ -52,20 +52,25 @@ jobs:
             ./build/${{ matrix.picoBoard }}
       - name: Upload executables
         uses: actions/github-script@v7
+        env:
+          TAG: ${{ inputs.tag }}
+          PICO_BOARD: ${{ matrix.picoBoard }}
+          PICO_SDK_VERSION: ${{ matrix.picoSDKVersion }}
         with:
           script: |
             const fs = require('fs');
-            const tag = "${{ inputs.tag }}";
-            console.info("Uploading for tag: " + tag);
+            const tag = process.env.TAG;
+            Console.info("Uploading for tag: " + tag);
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner, 
               repo: context.repo.repo, 
               tag: tag
             });
-            console.info("Uploading for release: " + release.data.name);
+            Console.info("Uploading for release: " + release.data.id);
             for (const extension in [ '.elf', '.bin', '.uf2' ]) {
-              const uploadFilename = "${{ matrix.picoBoard }}_${{ matrix.picoSDKVersion }}" + extension;
-              const sourceFilepath = "build/${{ matrix.picoBoard }}/gp_pico_template" + extension;
+              const uploadFilename = process.env.PICO_BOARD + "_" + process.env.PICO_SDK_VERSION + extension;
+              const sourceFilepath = "build/" + process.env.PICO_BOARD + "/gp_pico_template" + extension;
+              Console.info("Uploading " + sourceFilePath + " as " + uploadFilename);
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner, 
                 repo: context.repo.repo, 
