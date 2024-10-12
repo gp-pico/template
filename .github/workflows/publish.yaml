@@ -26,7 +26,7 @@ name: Publish
 on:
   workflow_call:
     inputs:
-      tghRef:
+      ghRef:
         description: The GitHub ref associated to the release (/refs/tags/<TAG>)
         type: string
         required: true

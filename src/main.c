@@ -46,6 +46,13 @@ int main()
     printf("--------------------------------------------------------------------------------\n");
     printf("Template - Kickstart your Pico project\n");
     printf("Copyright © 2024, Greg PFISTER. MIT License.\n");
+#ifdef GIT_COMMIT_TAG
+    printf("Version: v%s\n", GIT_COMMIT_TAG);
+#endif
+    printf("Build date: %s at %s\n", __DATE__, __TIME__);
+#ifdef GIT_COMMIT_HASH
+    printf("Commit: %s\n", GIT_COMMIT_HASH);
+#endif
     printf("--------------------------------------------------------------------------------\n");
     printf("\n");
 
