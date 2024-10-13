@@ -1,3 +1,4 @@
+[![Release](https://github.com/gp-pico/template/actions/workflows/release.yaml/badge.svg)](https://github.com/gp-pico/template/actions/workflows/release.yaml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
@@ -154,6 +155,18 @@ These actions will use the following _sub-actions_:
 - test.yaml: Runs unit tests (it requires the build cached by build.yaml);
 - publish.yaml: Publish the build code zipped along with the release version
   (it requires the build cached by build.yaml).
+
+### Pull request and push
+
+Pull request and push related actions consists in building and running unit
+tests.
+
+This current example builds on `pico`, `pico_w` and `pico2` boards.
+
+### Release
+
+Release related action consists in building and uploading executables on the
+created release.
 
 ## Contribution
 
