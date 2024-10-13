@@ -32,9 +32,11 @@ on:
         required: true
 
 jobs:
-  build:
+  publish:
     name: Publish
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/gp-devenv/gp-pico-devenv:24.04-${{ matrix.picoSDKVersion }}-1
     strategy:
       matrix:
         picoBoard: [ 'pico', 'pico_w', 'pico2' ]
@@ -45,7 +47,7 @@ jobs:
       - name: Cache builds
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
+          key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ github.sha }}
           path: |
             ./build
       - name: Check files

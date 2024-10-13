@@ -27,7 +27,7 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  test:
     name: Test
     runs-on: ubuntu-latest
     container:
@@ -42,7 +42,7 @@ jobs:
       - name: Cache builds
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ hashFiles('./src/**') }}
+          key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ github.sha }}
           path: |
             ./build
       - name: Check executables
