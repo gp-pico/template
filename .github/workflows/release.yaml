@@ -32,6 +32,7 @@ jobs:
     name: Build
     uses: ./.github/workflows/build.yaml
   publish:
+    permissions: write-all
     name: Publish
     needs: [ build ]
     uses: ./.github/workflows/publish.yaml
