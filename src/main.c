@@ -50,10 +50,10 @@ int main()
     printf("Version: v%s.%s.%s+%s\n", GP_MAJOR_VERSION, GP_MINOR_VERSION, GP_PATCH_VERSION, GP_BUILD_NUMBER);
 #endif
     printf("Build date: %s at %s\n", __DATE__, __TIME__);
-#ifdef GP_GIT_COMMIT_TAG
+#if defined(GP_GIT_COMMIT_TAG)
     printf("Commit tag: %s\n", GP_GIT_COMMIT_TAG);
 #endif
-#ifdef GP_GIT_COMMIT_HASH
+#if defined(GP_GIT_COMMIT_HASH)
     printf("Commit hash: %s\n", GP_GIT_COMMIT_HASH);
 #endif
     printf("--------------------------------------------------------------------------------\n");
