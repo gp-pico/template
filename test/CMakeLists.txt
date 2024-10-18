@@ -21,33 +21,17 @@
 # SOFTWARE.
 #
 
-cmake_minimum_required(VERSION 3.13)
-
-#include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-include(pico_sdk_import.cmake)
-
-project(gp-pico-template C CXX ASM)
+project(gp-pico-template-test C CXX ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-pico_sdk_init()
+add_subdirectory(lib)
 
-add_subdirectory(test)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(gp_pico_template
-        src/main.c
-        src/led.c
+add_executable(gp_pico_template_tests
+        src/test.cpp
 )
 
-pico_enable_stdio_usb(gp_pico_template 0)
-pico_enable_stdio_uart(gp_pico_template 1)
-
-pico_add_extra_outputs(gp_pico_template)
-
-target_link_libraries(gp_pico_template pico_stdlib)
-if (PICO_BOARD STREQUAL "pico_w")
-    target_link_libraries(gp_pico_template pico_cyw43_arch_none)
-endif ()
-
-include(gp_pico_util.cmake)
+target_link_libraries(gp_pico_template_tests gtest gtest_main)
