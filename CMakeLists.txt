@@ -33,8 +33,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
-add_subdirectory(test)
-
 add_executable(gp_pico_template
         src/main.c
         src/led.c
