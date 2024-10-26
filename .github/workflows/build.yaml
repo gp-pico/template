@@ -45,6 +45,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.picoSDKVersion }}-${{ matrix.picoBoard }}-${{ github.sha }}
           path: |
             ./build
+      - name: Install dependencies
+        run: apt-get install -y doxygen graphviz
       - name: Copy pico_sdk_import.cmake
         run: cp /opt/rpi-pico/v${{ matrix.picoSDKVersion }}/pico-sdk/external/pico_sdk_import.cmake .
       - name: Create build folder

@@ -21,37 +21,26 @@
 // SOFTWARE.
 //
 
-#include "led.h"
+#include <stdio.h>
 
-// Pico W devices use a GPIO on the WIFI chip for the LED,
-// so when building for Pico W, CYW43_WL_GPIO_LED_PIN will be defined
-#ifdef CYW43_WL_GPIO_LED_PIN
-#include "pico/cyw43_arch.h"
+#if defined(GP_GIT_COMMIT_HASH)
+static char *gp_hash = GP_GIT_COMMIT_HASH;
+#else
+static char *gp_hash = NULL;
 #endif
 
-// Perform initialisation
-int GP_pico_led_init(void)
+#if defined(GP_GIT_COMMIT_TAG)
+static char *gp_tag = GP_GIT_COMMIT_TAG;
+#else
+static char *gp_tag = NULL;
+#endif
+
+void gp_get_commit_hash(char **hash)
 {
-#if defined(PICO_DEFAULT_LED_PIN)
-    // A device like Pico that uses a GPIO for the LED will define PICO_DEFAULT_LED_PIN
-    // so we can use normal GPIO functionality to turn the led on and off
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-    return PICO_OK;
-#elif defined(CYW43_WL_GPIO_LED_PIN)
-    // For Pico W devices we need to initialise the driver etc
-    return cyw43_arch_init();
-#endif
+    *hash = gp_hash;
 }
 
-// Turn the led on or off
-void GP_pico_set_led(bool led_on)
+void gp_get_commit_tag(char **tag)
 {
-#if defined(PICO_DEFAULT_LED_PIN)
-    // Just set the GPIO on or off
-    gpio_put(PICO_DEFAULT_LED_PIN, led_on);
-#elif defined(CYW43_WL_GPIO_LED_PIN)
-    // Ask the wifi "driver" to set the GPIO on or off
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_on);
-#endif
+    *tag = gp_tag;
 }

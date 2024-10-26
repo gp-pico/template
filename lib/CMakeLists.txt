@@ -21,38 +21,11 @@
 # SOFTWARE.
 #
 
-cmake_minimum_required(VERSION 3.13)
+# Some options
+set(WITH_STATIC_LIB ON)
 
-# Mandatory requirements
-# Alternatively: include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-include(pico_sdk_import.cmake)
+# cmocka
+add_subdirectory(cmocka)
 
-# Project definition
-project(gp-pico-template C CXX ASM)
-
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 17)
-
-pico_sdk_init()
-
-add_subdirectory(lib)
-
-# Executable
-add_executable(gp_pico_template
-        src/main.c
-        src/led.c
-)
-
-pico_enable_stdio_usb(gp_pico_template 0)
-pico_enable_stdio_uart(gp_pico_template 1)
-
-pico_add_extra_outputs(gp_pico_template)
-
-target_link_libraries(gp_pico_template pico_stdlib)
-target_link_libraries(gp_pico_template gp_pico)
-
-if (PICO_BOARD STREQUAL "pico_w")
-    target_link_libraries(gp_pico_template pico_cyw43_arch_none)
-endif ()
-
-target_include_directories(gp_pico_template PRIVATE lib/gp_pico/include)
+# gp-pico
+add_subdirectory(gp_pico)

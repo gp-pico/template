@@ -21,11 +21,11 @@
 // SOFTWARE.
 //
 
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef GP_GLOBAL_H
+#define GP_GLOBAL_H
 
 // Led delay
 #define LED_DELAY_MS          900
 #define LED_BLINK_DURATION_MS 100
 
-#endif /* GLOBAL_H */
+#endif /* GP_GLOBAL_H */

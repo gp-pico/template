@@ -21,37 +21,20 @@
 // SOFTWARE.
 //
 
-#include "led.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-// Pico W devices use a GPIO on the WIFI chip for the LED,
-// so when building for Pico W, CYW43_WL_GPIO_LED_PIN will be defined
-#ifdef CYW43_WL_GPIO_LED_PIN
-#include "pico/cyw43_arch.h"
-#endif
-
-// Perform initialisation
-int GP_pico_led_init(void)
+void gp_get_version(char **version)
 {
-#if defined(PICO_DEFAULT_LED_PIN)
-    // A device like Pico that uses a GPIO for the LED will define PICO_DEFAULT_LED_PIN
-    // so we can use normal GPIO functionality to turn the led on and off
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-    return PICO_OK;
-#elif defined(CYW43_WL_GPIO_LED_PIN)
-    // For Pico W devices we need to initialise the driver etc
-    return cyw43_arch_init();
-#endif
-}
-
-// Turn the led on or off
-void GP_pico_set_led(bool led_on)
-{
-#if defined(PICO_DEFAULT_LED_PIN)
-    // Just set the GPIO on or off
-    gpio_put(PICO_DEFAULT_LED_PIN, led_on);
-#elif defined(CYW43_WL_GPIO_LED_PIN)
-    // Ask the wifi "driver" to set the GPIO on or off
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_on);
+#if defined(GP_MAJOR_VERSION) && defined(GP_MINOR_VERSION) && defined(GP_PATCH_VERSION) && defined(GP_BUILD_NUMBER)
+    const char *major = GP_MAJOR_VERSION;
+    const char *minor = GP_MINOR_VERSION;
+    const char *patch = GP_PATCH_VERSION;
+    const char *build_number = GP_BUILD_NUMBER;
+    *version = malloc((strlen(major) + strlen(minor) + strlen(patch) + strlen(build_number) + 4) * sizeof(char));
+    sprintf(*version, "%s.%s.%s+%s", GP_MAJOR_VERSION, GP_MINOR_VERSION, GP_PATCH_VERSION, GP_BUILD_NUMBER);
+#else
+    *version = NULL;
 #endif
 }

@@ -28,6 +28,14 @@
 #include "pico/stdlib.h"
 #include "pico/time.h"
 
+#include <gp_pico.h>
+
+/* Declarations ***************************************************************/
+
+void gp_print_info();
+
+/* Main ***********************************************************************/
+
 int main()
 {
     int ret = 0;    // Return code
@@ -38,25 +46,12 @@ int main()
     hard_assert(ret == true);
 
     // Initialize led
-    ret = pico_led_init();
+    ret = GP_pico_led_init();
     hard_assert(ret == PICO_OK);
 
     // Begin
     printf("\n");
-    printf("--------------------------------------------------------------------------------\n");
-    printf("Template - Kickstart your Pico project\n");
-    printf("Copyright © 2024, Greg PFISTER. MIT License.\n");
-#if defined(GP_MAJOR_VERSION) && defined(GP_MINOR_VERSION) && defined(GP_PATCH_VERSION) && defined(GP_BUILD_NUMBER)
-    printf("Version: v%s.%s.%s+%s\n", GP_MAJOR_VERSION, GP_MINOR_VERSION, GP_PATCH_VERSION, GP_BUILD_NUMBER);
-#endif
-    printf("Build date: %s at %s\n", __DATE__, __TIME__);
-#if defined(GP_GIT_COMMIT_TAG)
-    printf("Commit tag: %s\n", GP_GIT_COMMIT_TAG);
-#endif
-#if defined(GP_GIT_COMMIT_HASH)
-    printf("Commit hash: %s\n", GP_GIT_COMMIT_HASH);
-#endif
-    printf("--------------------------------------------------------------------------------\n");
+    gp_print_info();
     printf("\n");
 
     // Main loop
@@ -66,11 +61,11 @@ int main()
         printf("%10i ms: Blink !\n", to_ms_since_boot(get_absolute_time()));
 
         // Light up for 100ms
-        pico_set_led(true);
+        GP_pico_set_led(true);
         sleep_ms(LED_BLINK_DURATION_MS - (count * 10));
 
         // Light down from 900ms, then 800ms
-        pico_set_led(false);
+        GP_pico_set_led(false);
         sleep_ms(LED_DELAY_MS - (count * 100));
 
         count = (count + 1) % 9;
@@ -78,4 +73,30 @@ int main()
 
     // ReSharper disable once CppDFAUnreachableCode
     return ret;
+}
+
+/* Print info *****************************************************************/
+
+void gp_print_info()
+{
+    char *version, *commit_hash, *commit_tag;
+
+    gp_get_version(&version);
+    gp_get_commit_hash(&commit_hash);
+    gp_get_commit_tag(&commit_tag);
+
+    printf("--------------------------------------------------------------------------------\n");
+    printf("Template - Kickstart your Pico project\n");
+    printf("Copyright © 2024, Greg PFISTER. MIT License.\n");
+    if (version != NULL) {
+        printf("Version: v%s\n", version);
+    }
+    printf("Build date: %s at %s\n", __DATE__, __TIME__);
+    if (commit_tag != NULL) {
+        printf("Commit tag: %s\n", commit_tag);
+    }
+    if (commit_hash != NULL) {
+        printf("Commit hash: %s\n", commit_hash);
+    }
+    printf("--------------------------------------------------------------------------------\n");
 }

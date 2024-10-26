@@ -26,6 +26,8 @@ FROM ghcr.io/gp-devenv/gp-pico-devenv:24.04-2.0.0-1
 # Switch back to root
 USER root
 
+RUN apt-get install -y -o doxygen graphviz
+
 # Switch back to vscode user
 USER vscode
 
